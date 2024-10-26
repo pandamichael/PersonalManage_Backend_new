@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/personal
+    username: root
+    password: 14659
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+server:
+  port: 9876

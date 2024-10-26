@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.personal.mapper.UserMapper">
+    <select id="selectAllByPagination" resultType="com.project.personal.model.UserModel">
+        SELECT id,
+               email,
+               name,
+               gender,
+               phone,
+               birthday
+        FROM user
+        ORDER BY update_date DESC
+        LIMIT #{limit} OFFSET  #{offset}
+    </select>
+
+    <select id="selectAllCount" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM user;
+    </select>
+
+    <select id="selectByEmail" resultType="com.project.personal.model.UserModel">
+        SELECT
+            id,
+            email,
+            name,
+            gender,
+            phone,
+            password,
+            birthday,
+            create_user AS createUser,
+            create_date AS createDate,
+            update_user AS updateUser,
+            update_date AS updateDate
+        FROM user
+        WHERE email = #{email}
+    </select>
+
+    <insert id="insert" parameterType="com.project.personal.model.UserModel">
+        INSERT INTO user
+        (email, password, name, gender, phone, birthday, create_user, create_date, update_user, update_date)
+        VALUES
+        (#{email}, #{password}, #{name}, #{gender}, #{phone}, #{birthday}, #{createUser}, #{createDate}, #{updateUser}, #{updateDate});
+    </insert>
+
+    <select id="selectByPrimaryKey" resultType="com.project.personal.model.UserModel">
+        SELECT
+        id,
+        email,
+        name,
+        gender,
+        phone,
+        password,
+        birthday,
+        create_user AS createUser,
+        create_date AS createDate,
+        update_user AS updateUser,
+        update_date AS updateDate
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="com.project.personal.model.UserModel">
+        UPDATE user
+        <set>
+            <!-- 只更新非空欄位 -->
+            <if test="email != null"> email = #{email}, </if>
+            <if test="name != null"> name = #{name}, </if>
+            <if test="gender != null"> gender = #{gender}, </if>
+            <if test="phone != null"> phone = #{phone}, </if>
+            <if test="password != null"> password = #{password}, </if>
+            <if test="birthday != null"> birthday = #{birthday}, </if>
+            <if test="createUser != null"> create_user = #{createUser}, </if>
+            <if test="createDate != null"> create_date = #{createDate}, </if>
+            <if test="updateUser != null"> update_user = #{updateUser}, </if>
+            <if test="updateDate != null"> update_date = #{updateDate} </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="long">
+        DELETE FROM user
+        WHERE id = #{id}
+    </delete>
+
+</mapper>
