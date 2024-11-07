@@ -30,6 +30,8 @@ public class UserController extends BaseController {
     @GetMapping
     @Operation(summary = "根據分頁取得使用者列表")
     public ApiResponse<UserResponse> getAllByPagination(PageRequest request) {
+
+        // 呼叫UserService分頁查詢
         ApiPageResponse<UserResponse> response = userService.getAllByPagination(request);
 
         return handlePageResponse(response.getData(), response.getCount());
