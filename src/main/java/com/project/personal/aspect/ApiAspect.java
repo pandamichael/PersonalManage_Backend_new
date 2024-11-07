@@ -28,6 +28,8 @@ public class ApiAspect {
     }
 
     @Around("controllerPoint()")
+
+    // doAroundAccessCheck 方法的作用是在每次進入控制器方法時，檢查當前的 session 是否包含 userId，從而判斷使用者是否已登入。
     public Object doAroundAccessCheck(ProceedingJoinPoint pjp) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -43,6 +45,7 @@ public class ApiAspect {
                 throw new BaseException(CommonCode.N3003);
             }
 
+            // 如果 userId 存在，將其設定到控制器中，以便後續方法可以使用 userId 進行權限控制。
             controller.setUserId(String.valueOf(userId));
         }
 
